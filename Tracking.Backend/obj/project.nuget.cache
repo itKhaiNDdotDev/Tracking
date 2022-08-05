@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5GtuxZKlx49mwlXEaahPbz83Ns0BfcKK7O9aFlnfrgDK9Woasu4oHnoPuzoM5wqj/A0RwWhixu/eZaHU052HPw==",
+  "dgSpecHash": "VGEJIgpuLq5bKbSaeVGCNLIvvoQly6umMfeAaACKIriZATigdWvtYKGYK9+tB5Bu65fgAPhAbPhYwgjv/zNyow==",
   "success": true,
-  "projectFilePath": "K:\\2021_2\\Tracking\\Tracking.Backend\\Tracking.Backend.csproj",
+  "projectFilePath": "K:\\2021_2\\Project3\\Tracking\\Tracking.Backend\\Tracking.Backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\khain\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\khain\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",

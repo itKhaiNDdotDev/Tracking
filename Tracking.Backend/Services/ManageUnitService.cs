@@ -1,18 +1,41 @@
 ﻿using System.Threading.Tasks;
+using Tracking.Backend.Data;
+using Tracking.Backend.Models;
 using Tracking.Backend.Services.InterfaceDIServices;
 
 namespace Tracking.Backend.Services
 {
     public class ManageUnitService : IManageUnitService
     {
-        public Task<int> Create(string name)
+        private readonly TrackingDbContext _context;
+        public ManageUnitService(TrackingDbContext context)
         {
-            throw new System.NotImplementedException();
+            _context = context;
         }
 
-        public Task<int> Update(int id, string name)
+        public async Task<int> Create(string name)
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
+            ManageUnit unit = new ManageUnit()
+            {
+                Name = name
+            };
+            _context.ManageUnit.Add(unit);
+            await _context.SaveChangesAsync();
+
+            return unit.Id;
+        }
+
+        public async Task<int> Update(int id, string name)
+        {
+            //throw new System.NotImplementedException();
+            var unit = await _context.ManageUnit.FindAsync(id);
+            if(unit == null)
+                return -1;
+            unit.Name = name;
+            _context.ManageUnit.Update(unit);
+
+            return await _context.SaveChangesAsync();
         }
     }
 }

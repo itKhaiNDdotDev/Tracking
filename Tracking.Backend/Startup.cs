@@ -46,6 +46,13 @@ namespace Tracking.Backend
             //DI
             services.AddTransient<IAtmTechnicanService, AtmTechnicanService>();
             services.AddTransient<ICarService, CarService>();
+            services.AddTransient<IDeviceService, DeviceService>();
+            services.AddTransient<IDriverService, DriverService>();
+            services.AddTransient<IManageUnitService, ManageUnitService>();
+            services.AddTransient<IRfidService, RfidService>();
+            services.AddTransient<ISampleRouteService, SampleRouteService>();
+            services.AddTransient<ITransactionPointService, TransactionPointService>();
+            services.AddTransient<ITreasurerService, TreasurerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

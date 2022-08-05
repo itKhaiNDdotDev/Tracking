@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Tracking.Backend.Data;
 using Tracking.Backend.Models;
+using Tracking.Backend.Services.InterfaceDIServices;
 
 namespace Tracking.Backend.Controllers
 {
@@ -15,10 +16,11 @@ namespace Tracking.Backend.Controllers
     public class DevicesController : ControllerBase
     {
         private readonly TrackingDbContext _context;
-
-        public DevicesController(TrackingDbContext context)
+        private readonly IDeviceService _serviece;
+        public DevicesController(TrackingDbContext context, IDeviceService service)
         {
             _context = context;
+            _serviece = service;
         }
 
         // GET: api/Devices

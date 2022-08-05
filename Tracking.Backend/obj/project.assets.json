@@ -8661,11 +8661,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "K:\\2021_2\\Tracking\\Tracking.Backend\\Tracking.Backend.csproj",
+      "projectUniqueName": "K:\\2021_2\\Project3\\Tracking\\Tracking.Backend\\Tracking.Backend.csproj",
       "projectName": "Tracking.Backend",
-      "projectPath": "K:\\2021_2\\Tracking\\Tracking.Backend\\Tracking.Backend.csproj",
+      "projectPath": "K:\\2021_2\\Project3\\Tracking\\Tracking.Backend\\Tracking.Backend.csproj",
       "packagesPath": "C:\\Users\\khain\\.nuget\\packages\\",
-      "outputPath": "K:\\2021_2\\Tracking\\Tracking.Backend\\obj\\",
+      "outputPath": "K:\\2021_2\\Project3\\Tracking\\Tracking.Backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\khain\\AppData\\Roaming\\NuGet\\NuGet.Config",
