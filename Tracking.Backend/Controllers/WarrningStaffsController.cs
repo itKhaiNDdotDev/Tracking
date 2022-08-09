@@ -12,48 +12,48 @@ namespace Tracking.Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DriversController : ControllerBase
+    public class WarrningStaffsController : ControllerBase
     {
         private readonly TrackingDbContext _context;
 
-        public DriversController(TrackingDbContext context)
+        public WarrningStaffsController(TrackingDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Drivers
+        // GET: api/WarrningStaffs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Driver>>> GetDriver()
+        public async Task<ActionResult<IEnumerable<WarrningStaff>>> GetWarrningStaff()
         {
-            return await _context.Driver.ToListAsync();
+            return await _context.WarrningStaff.ToListAsync();
         }
 
-        // GET: api/Drivers/5
+        // GET: api/WarrningStaffs/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Driver>> GetDriver(int id)
+        public async Task<ActionResult<WarrningStaff>> GetWarrningStaff(int id)
         {
-            var driver = await _context.Driver.FindAsync(id);
+            var warrningStaff = await _context.WarrningStaff.FindAsync(id);
 
-            if (driver == null)
+            if (warrningStaff == null)
             {
                 return NotFound();
             }
 
-            return driver;
+            return warrningStaff;
         }
 
-        // PUT: api/Drivers/5
+        // PUT: api/WarrningStaffs/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDriver(int id, Driver driver)
+        public async Task<IActionResult> PutWarrningStaff(int id, WarrningStaff warrningStaff)
         {
-            if (id != driver.Id)
+            if (id != warrningStaff.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(driver).State = EntityState.Modified;
+            _context.Entry(warrningStaff).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +61,7 @@ namespace Tracking.Backend.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DriverExists(id))
+                if (!WarrningStaffExists(id))
                 {
                     return NotFound();
                 }
@@ -74,42 +74,42 @@ namespace Tracking.Backend.Controllers
             return NoContent();
         }
 
-        // POST: api/Drivers
+        // POST: api/WarrningStaffs
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Driver>> PostDriver(Driver driver)
+        public async Task<ActionResult<WarrningStaff>> PostWarrningStaff(WarrningStaff warrningStaff)
         {
-            _context.Driver.Add(driver);
+            _context.WarrningStaff.Add(warrningStaff);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDriver", new { id = driver.Id }, driver);
+            return CreatedAtAction("GetWarrningStaff", new { id = warrningStaff.Id }, warrningStaff);
         }
 
-        // DELETE: api/Drivers/5
+        // DELETE: api/WarrningStaffs/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Driver>> DeleteDriver(int id)
+        public async Task<ActionResult<WarrningStaff>> DeleteWarrningStaff(int id)
         {
-            var driver = await _context.Driver.FindAsync(id);
-            if (driver == null)
+            var warrningStaff = await _context.WarrningStaff.FindAsync(id);
+            if (warrningStaff == null)
             {
                 return NotFound();
             }
 
-            _context.Driver.Remove(driver);
+            _context.WarrningStaff.Remove(warrningStaff);
             await _context.SaveChangesAsync();
 
-            return driver;
+            return warrningStaff;
         }
 
-        // PATCH: api/Drivers/5/RemoveRfid
+        // PATCH: api/WarningStaff/5/RemoveRfid
         [HttpPatch("{id}")]
         public async Task<IActionResult> RemoveRfid(int id)
         {
-            var drv = await _context.Driver.FindAsync(id);
-            if (drv == null)
+            var staff = await _context.WarrningStaff.FindAsync(id);
+            if (staff == null)
                 return NotFound();
-            drv.RfidId = null;
+            staff.RfidId = null;
             var changed = await _context.SaveChangesAsync();
 
             try
@@ -125,7 +125,7 @@ namespace Tracking.Backend.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DriverExists(id))
+                if (!WarrningStaffExists(id))
                 {
                     return NotFound();
                 }
@@ -136,9 +136,9 @@ namespace Tracking.Backend.Controllers
             }
         }
 
-        private bool DriverExists(int id)
+        private bool WarrningStaffExists(int id)
         {
-            return _context.Driver.Any(e => e.Id == id);
+            return _context.WarrningStaff.Any(e => e.Id == id);
         }
     }
 }

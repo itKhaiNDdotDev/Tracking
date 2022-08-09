@@ -30,5 +30,8 @@ namespace Tracking.Backend.Data
 
         public DbSet<Tracking.Backend.Models.Treasurer> Treasurer { get; set; }
         public DbSet<Tracking.Backend.Models.SampleRoute> SampleRoutes { get; set; }
+        public DbSet<Tracking.Backend.Models.WarrningStaff> WarrningStaff { get; set; }
+        public DbSet<Tracking.Backend.Models.AssignRoute> AssignRoute { get; set; }
+        public DbSet<Tracking.Backend.Models.WarningLog> WarningLog { get; set; }
     }
 }

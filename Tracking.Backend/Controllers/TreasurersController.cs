@@ -102,6 +102,39 @@ namespace Tracking.Backend.Controllers
             return treasurer;
         }
 
+        // PATCH: api/Treasurers/5/RemoveRfid
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> RemoveRfid(int id)
+        {
+            var treasurer = await _context.Treasurer.FindAsync(id);
+            if (treasurer == null)
+                return NotFound();
+            treasurer.RfidId = null;
+            var changed = await _context.SaveChangesAsync();
+
+            try
+            {
+                //await _context.SaveChangesAsync();
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (changed <= 0)
+                    return BadRequest();
+                return Ok("Remove RFID success!");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TreasurerExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
         private bool TreasurerExists(int id)
         {
             return _context.Treasurer.Any(e => e.Id == id);

@@ -122,6 +122,42 @@ namespace Tracking.Backend.Controllers
                 return BadRequest();
         }
 
+        // PATCH: api/AtmTechnicans/5/RemoveRfid
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> RemoveRfid(int id)
+        {
+            //_context.Entry(atmTechnican).State = EntityState.Modified;
+            var atmTechnican = await _context.AtmTechnican.FindAsync(id);
+            if (atmTechnican == null)
+                return NotFound();
+            atmTechnican.RfidId = null;
+            var changed = await _context.SaveChangesAsync();
+
+            try
+            {
+                //await _context.SaveChangesAsync();
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (changed <= 0)
+                    return BadRequest();
+                return Ok("Remove RFID success!");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AtmTechnicanExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
+
         private bool AtmTechnicanExists(int id)
         {
             return _context.AtmTechnican.Any(e => e.Id == id);
