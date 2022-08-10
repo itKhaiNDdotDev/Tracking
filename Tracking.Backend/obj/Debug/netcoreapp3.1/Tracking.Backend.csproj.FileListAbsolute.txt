@@ -272,3 +272,8 @@ K:\2021_2\Project3\Tracking\Tracking.Backend\obj\Debug\netcoreapp3.1\staticwebas
 K:\2021_2\Project3\Tracking\Tracking.Backend\obj\Debug\netcoreapp3.1\Tracking.Backend.RazorTargetAssemblyInfo.cache
 K:\2021_2\Project3\Tracking\Tracking.Backend\obj\Debug\netcoreapp3.1\Tracking.Backend.csproj.CopyComplete
 K:\2021_2\Project3\Tracking\Tracking.Backend\obj\Debug\netcoreapp3.1\Tracking.Backend.genruntimeconfig.cache
+K:\2021_2\Project3\Tracking\Tracking.Backend\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.Internal.dll
+K:\2021_2\Project3\Tracking\Tracking.Backend\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+K:\2021_2\Project3\Tracking\Tracking.Backend\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+K:\2021_2\Project3\Tracking\Tracking.Backend\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Core.dll
+K:\2021_2\Project3\Tracking\Tracking.Backend\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Stores.dll

@@ -123,7 +123,7 @@ namespace Tracking.Backend.Controllers
         }
 
         // PATCH: api/AtmTechnicans/5/RemoveRfid
-        [HttpPatch("{id}")]
+        [HttpPatch("{id}/remove-rfid")]
         public async Task<IActionResult> RemoveRfid(int id)
         {
             //_context.Entry(atmTechnican).State = EntityState.Modified;

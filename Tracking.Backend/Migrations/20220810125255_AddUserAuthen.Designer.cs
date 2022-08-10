@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tracking.Backend.Data;
 
 namespace Tracking.Backend.Migrations
 {
     [DbContext(typeof(TrackingDbContext))]
-    partial class TrackingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220810125255_AddUserAuthen")]
+    partial class AddUserAuthen
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
