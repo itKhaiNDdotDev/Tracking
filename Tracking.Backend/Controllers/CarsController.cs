@@ -88,10 +88,16 @@ namespace Tracking.Backend.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Car>> Create(Car car)
+        public async Task<ActionResult<Car>> Create(CarRequest request)
         {
-            _context.Car.Add(car);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            int id = await _service.Create(request);
+            if (id <= 0)
+                return BadRequest("Create Failed!");
+            var car = await _context.Car.FindAsync(id);
 
             return CreatedAtAction("GetCar", new { id = car.Id }, car);
         }
@@ -107,9 +113,13 @@ namespace Tracking.Backend.Controllers
             }
 
             _context.Car.Remove(car);
-            await _context.SaveChangesAsync();
-
-            return car;
+            int changed = await _context.SaveChangesAsync();
+            if (changed > 1)
+                return Ok("Deleted " + changed + " items");
+            else if (changed > 0)
+                return Ok("Deleted " + changed + " item");
+            else
+                return BadRequest();
         }
 
         private bool CarExists(int id)

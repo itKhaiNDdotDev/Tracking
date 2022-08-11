@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace Tracking.Backend.Models
+namespace Tracking.Backend.DTOs
 {
-    public class AssignRoute
+    public class AssignRouteRequest
     {
-        public int Id { get; set; }
         public int UnitId { get; set; }
         public int CarId { get; set; }
         public int DriverId { get; set; }

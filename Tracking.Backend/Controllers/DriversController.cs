@@ -102,8 +102,8 @@ namespace Tracking.Backend.Controllers
             return driver;
         }
 
-        // PATCH: api/Drivers/5/RemoveRfid
-        [HttpPatch("{id}")]
+        // PATCH: api/Drivers/5/remove-rfid
+        [HttpPatch("{id}/remove-rfid")]
         public async Task<IActionResult> RemoveRfid(int id)
         {
             var drv = await _context.Driver.FindAsync(id);

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Tracking.Backend.Data;
 using Tracking.Backend.DTOs.User;
 using Tracking.Backend.Models;
 
@@ -19,12 +20,14 @@ namespace Tracking.Backend.Services.Auth
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<Role> _roleInManager;
         private readonly IConfiguration _config;
-        public UserService(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<Role> roleInManager, IConfiguration config)
+        private readonly TrackingDbContext _context;
+        public UserService(TrackingDbContext context, UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<Role> roleInManager, IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleInManager = roleInManager;
             _config = config;
+            _context = context;
         }
 
         public async Task<AuthViewModel> Login(string email, string password/*, bool rememberMe*/)
@@ -82,6 +85,7 @@ namespace Tracking.Backend.Services.Auth
 
             var user = new User()
             {
+                UserName = request.email,
                 Email = request.email,
                 fullname = request.fullname,
                 create_date = DateTime.Now.Date,

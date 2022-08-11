@@ -31,14 +31,20 @@ namespace Tracking.Backend.Services
             };
             List<TracePointId> tmp = req.TracePoints;
             spRoute.TracePoits = new List<TracePointForRoute>();
-            foreach(var tracePoint in tmp)
+            foreach (var tracePoint in tmp)
             {
-                new TracePointForRoute()
+                //new TracePointForRoute()
+                //{
+                //    StopPoint = await _context.TransactionPoint.FindAsync(tracePoint.PointId),
+                //    TravelTimeByMin = tracePoint.TimeTravelTimeByMin
+                //};
+                spRoute.TracePoits.Add(new TracePointForRoute()
                 {
                     StopPoint = await _context.TransactionPoint.FindAsync(tracePoint.PointId),
                     TravelTimeByMin = tracePoint.TimeTravelTimeByMin
-                };
-            }  
+                });
+            }
+             
             _context.SampleRoutes.Add(spRoute);
             await _context.SaveChangesAsync();
 

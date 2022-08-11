@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Tracking.Backend.Data;
+using Tracking.Backend.DTOs;
 using Tracking.Backend.Models;
 using Tracking.Backend.Services.InterfaceDIServices;
 
@@ -16,16 +17,16 @@ namespace Tracking.Backend.Controllers
     public class DevicesController : ControllerBase
     {
         private readonly TrackingDbContext _context;
-        private readonly IDeviceService _serviece;
+        private readonly IDeviceService _service;
         public DevicesController(TrackingDbContext context, IDeviceService service)
         {
             _context = context;
-            _serviece = service;
+            _service = service;
         }
 
         // GET: api/Devices
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Device>>> GetDevice()
+        public async Task<ActionResult<IEnumerable<Device>>> GetAll()
         {
             return await _context.Device.ToListAsync();
         }
@@ -48,18 +49,25 @@ namespace Tracking.Backend.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDevice(int id, Device device)
+        public async Task<IActionResult> PutDevice(int id, DeviceRequest request)
         {
-            if (id != device.Id)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
-
-            _context.Entry(device).State = EntityState.Modified;
-
+            int changed = await _service.Update(id, request);
             try
             {
-                await _context.SaveChangesAsync();
+                if (changed == -1)
+                    return NotFound("Device with id = " + id + " is not exist!");
+                if (changed == 0)
+                    return BadRequest("Update Failed!");
+                var device = await _context.Device.FindAsync(id);
+                if (device == null)
+                {
+                    return NotFound();
+                }
+                return Ok(device);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -72,18 +80,22 @@ namespace Tracking.Backend.Controllers
                     throw;
                 }
             }
-
-            return NoContent();
         }
 
         // POST: api/Devices
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Device>> PostDevice(Device device)
+        public async Task<ActionResult<Device>> PostDevice(DeviceRequest request)
         {
-            _context.Device.Add(device);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            int id = await _service.Create(request);
+            if (id <= 0)
+                return BadRequest("Create Failed!");
+            var device = await _context.Device.FindAsync(id);
 
             return CreatedAtAction("GetDevice", new { id = device.Id }, device);
         }
@@ -99,9 +111,13 @@ namespace Tracking.Backend.Controllers
             }
 
             _context.Device.Remove(device);
-            await _context.SaveChangesAsync();
-
-            return device;
+            int changed = await _context.SaveChangesAsync();
+            if (changed > 1)
+                return Ok("Deleted " + changed + " items");
+            else if (changed > 0)
+                return Ok("Deleted " + changed + " item");
+            else
+                return BadRequest();
         }
 
         private bool DeviceExists(int id)

@@ -23,7 +23,7 @@ namespace Tracking.Backend.Controllers
 
         // GET: api/WarrningStaffs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<WarrningStaff>>> GetWarrningStaff()
+        public async Task<ActionResult<IEnumerable<WarrningStaff>>> GetAll()
         {
             return await _context.WarrningStaff.ToListAsync();
         }
@@ -103,7 +103,7 @@ namespace Tracking.Backend.Controllers
         }
 
         // PATCH: api/WarningStaff/5/RemoveRfid
-        [HttpPatch("{id}")]
+        [HttpPatch("{id}/remove-rfid")]
         public async Task<IActionResult> RemoveRfid(int id)
         {
             var staff = await _context.WarrningStaff.FindAsync(id);

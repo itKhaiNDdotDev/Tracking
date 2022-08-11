@@ -44,5 +44,7 @@ namespace Tracking.Backend.Data
             modelBuilder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
             modelBuilder.Entity<IdentityUserToken<int>>().ToTable("UserTokens").HasKey(i => i.UserId);
         }
+        public DbSet<Tracking.Backend.Models.User> User { get; set; }
+        public DbSet<Tracking.Backend.Models.Role> Role { get; set; }
     }
 }

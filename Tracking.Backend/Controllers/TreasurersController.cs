@@ -87,7 +87,7 @@ namespace Tracking.Backend.Controllers
         }
 
         // DELETE: api/Treasurers/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}/remove-rfid")]
         public async Task<ActionResult<Treasurer>> DeleteTreasurer(int id)
         {
             var treasurer = await _context.Treasurer.FindAsync(id);

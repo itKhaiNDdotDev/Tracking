@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Tracking.Backend.Data;
+using Tracking.Backend.DTOs;
 using Tracking.Backend.Models;
+using Tracking.Backend.Services.InterfaceDIServices;
 
 namespace Tracking.Backend.Controllers
 {
@@ -15,15 +17,16 @@ namespace Tracking.Backend.Controllers
     public class RfidsController : ControllerBase
     {
         private readonly TrackingDbContext _context;
-
-        public RfidsController(TrackingDbContext context)
+        private readonly IRfidService _service;
+        public RfidsController(TrackingDbContext context,IRfidService service)
         {
             _context = context;
+            _service = service;
         }
 
         // GET: api/Rfids
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Rfid>>> GetRfid()
+        public async Task<ActionResult<IEnumerable<Rfid>>> GetAll()
         {
             return await _context.Rfid.ToListAsync();
         }
@@ -46,18 +49,25 @@ namespace Tracking.Backend.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRfid(int id, Rfid rfid)
+        public async Task<IActionResult> PutRfid(int id, RfidRequest request)
         {
-            if (id != rfid.Id)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
-
-            _context.Entry(rfid).State = EntityState.Modified;
-
+            int changed = await _service.Update(id, request);
             try
             {
-                await _context.SaveChangesAsync();
+                if (changed == -1)
+                    return NotFound("Rfid with id = " + id + " is not exist!");
+                if (changed == 0)
+                    return BadRequest("Update Failed!");
+                var rfid = await _context.Rfid.FindAsync(id);
+                if (rfid == null)
+                {
+                    return NotFound();
+                }
+                return Ok(rfid);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -70,18 +80,22 @@ namespace Tracking.Backend.Controllers
                     throw;
                 }
             }
-
-            return NoContent();
         }
 
         // POST: api/Rfids
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Rfid>> PostRfid(Rfid rfid)
+        public async Task<ActionResult<Rfid>> PostRfid(RfidRequest request)
         {
-            _context.Rfid.Add(rfid);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            int id = await _service.Create(request);
+            if (id <= 0)
+                return BadRequest("Create Failed!");
+            var rfid = await _context.Rfid.FindAsync(id);
 
             return CreatedAtAction("GetRfid", new { id = rfid.Id }, rfid);
         }
@@ -97,9 +111,13 @@ namespace Tracking.Backend.Controllers
             }
 
             _context.Rfid.Remove(rfid);
-            await _context.SaveChangesAsync();
-
-            return rfid;
+            int changed = await _context.SaveChangesAsync();
+            if (changed > 1)
+                return Ok("Deleted " + changed + " items");
+            else if (changed > 0)
+                return Ok("Deleted " + changed + " item");
+            else
+                return BadRequest();
         }
 
         private bool RfidExists(int id)

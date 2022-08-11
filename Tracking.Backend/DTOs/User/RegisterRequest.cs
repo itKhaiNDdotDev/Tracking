@@ -8,6 +8,7 @@ namespace Tracking.Backend.DTOs.User
 {
     public class RegisterRequest
     {
+        //public string UserName { get; set; }
         public string fullname { get; set; }
         public string email { get; set; }
         [DataType(DataType.Password)]

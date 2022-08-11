@@ -2,28 +2,31 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tracking.Backend.Data;
 using Tracking.Backend.DTOs.User;
+using Tracking.Backend.Models;
 using Tracking.Backend.Services.Auth;
 
 namespace Tracking.Backend.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
         private readonly IUsers _userService;
-        public UsersController(IUsers userService)
+        private readonly TrackingDbContext _context;
+        public UsersController(IUsers userService, TrackingDbContext context)
         {
             _userService = userService;
+            _context = context;
         }
 
-        [HttpPost("logint")]
-        [AllowAnonymous]
+        [HttpPost("login")]
         public async Task<IActionResult> LogIn(string email, string password)
         {
             if (!ModelState.IsValid)
@@ -39,7 +42,6 @@ namespace Tracking.Backend.Controllers
         }
 
         [HttpPost("register")]
-        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
             if (!ModelState.IsValid)
@@ -49,7 +51,7 @@ namespace Tracking.Backend.Controllers
             var res = await _userService.Register(request);
             if (!res)
             {
-                return BadRequest("RegisterFailed!");
+                return BadRequest("Register Failed!");
             }
             return Ok("Created!");
         }
@@ -59,6 +61,33 @@ namespace Tracking.Backend.Controllers
         {
             await _userService.Logout();
             return Ok();
+        }
+
+        // GET: api/Users
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<User>>> GetAll()
+        {
+            return await _context.User.ToListAsync();
+        }
+
+        // DELETE: api/User/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteUser(int id)
+        {
+            var user = await _context.User.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            _context.User.Remove(user);
+            int changed = await _context.SaveChangesAsync();
+            if (changed > 1)
+                return Ok("Deleted " + changed + " items");
+            else if (changed > 0)
+                return Ok("Deleted " + changed + " item");
+            else
+                return BadRequest();
         }
     }
 }
