@@ -13,6 +13,6 @@ Project3-SoICT-HUST: Manage tracking for money transfering of any Bank
 - Microsoft.AspNetCore.Identity.EntityFrameworkCore 3.1.28
 - Microsoft.IdentityModel.Tokens
 - System.IdentityModel.Tokens.Jwt
-- Swashbuckle.AspNetCore 5.5.1
+- Swashbuckle.AspNetCore 5.5.1 
 To install them, please usser "Manage Nuget Package" in UI of Visual Studio or run the following commands with your directory (where contain project):
 
