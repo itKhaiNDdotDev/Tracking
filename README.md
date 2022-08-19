@@ -1,7 +1,5 @@
 # Tracking
 Project3-SoICT-HUST: Manage tracking for money transfering of any Bank
-
-# IoT_ParamsManage:
 - .NET Core 3.1
 - Entity Framework Core 3.1
 - SQL Server
@@ -37,4 +35,9 @@ After dowload this project source code and confirm all (Especially the notes abo
 - To run, you can use UI for Run options when open project in Visual Studio or use commands: ``dotnet run`` in the current directory, or run the specified project ``dotnet run --project ./Tracking/Tracking.Backend/Tracking.Backend.csproj``
 - Result: UI Swagger web for list APIs, you can test them with Swagger or your any tool.
 
+## Development Details
+...
+## Front-end
+...
+## Feedback
 
