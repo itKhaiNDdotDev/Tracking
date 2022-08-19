@@ -91,6 +91,7 @@ namespace Tracking.Backend
             services.AddTransient<SignInManager<User>, SignInManager<User>>();
             services.AddTransient<RoleManager<Role>, RoleManager<Role>>();
             services.AddTransient<IUsers, UserService>();
+            services.AddTransient<IAssignRouteService, AssignRouteService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
